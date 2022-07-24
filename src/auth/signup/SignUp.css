@@ -1,0 +1,13 @@
+.icon {
+    float: right;
+    color: #0d6efd;
+}
+
+.icon-error {
+    float: right;
+    color: red;
+}
+
+.inputError {
+    border: 1px red;
+}
