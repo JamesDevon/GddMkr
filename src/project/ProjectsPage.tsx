@@ -59,7 +59,6 @@ export const ProjectsPage = (props: IProjectPageProps) => {
       <NavBarTop {...navBarTopProps}/>
       <UpperBar/>
       <NavBarSide {...navBarProps}/>
-      {selectedProject != null && (<DocxEditor {...editorProps}/>)}
       {props.projectCreateModalHelpers.isOpen() && (
         <Modal
           isOpen
