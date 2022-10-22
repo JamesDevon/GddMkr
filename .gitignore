@@ -1,6 +1,6 @@
 node_modules
 .env.*
-.env
+.env.develpoment
 /dist
 /build
 .idea
