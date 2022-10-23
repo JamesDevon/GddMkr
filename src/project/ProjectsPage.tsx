@@ -6,12 +6,12 @@ import {INavBarSideProps, NavBarSide} from './NavBarSide/NavBarSide';
 import {IProject} from './interfaces/IProject';
 import Modal from '../shared/components/Modal/Modal';
 import ProjectCreate from './Modals/ProjectCreate';
-import DocxEditor, {IDocxEditor} from './DocxEditor/DocxEditor';
 import {FrontConfig} from '../config/FrontConfig';
 import {useNavigate} from 'react-router-dom';
 import ProjectConfig from './Modals/ProjectConfig';
 import {ISections} from './interfaces/ISections';
 import {InviteFriend} from './Modals/InviteFriend';
+import {Editor, EditorProps} from './Editor/Editor';
 
 export interface IProjectPageProps {
     projects: IProject[];
@@ -39,7 +39,7 @@ export const ProjectsPage = (props: IProjectPageProps) => {
     inviteFriendModalHelpers: props.inviteFriendModalHelpers,
   };
 
-  const editorProps: IDocxEditor = {
+  const editorProps: EditorProps = {
     selectedProject,
     selectedSection,
   };
@@ -59,6 +59,7 @@ export const ProjectsPage = (props: IProjectPageProps) => {
       <NavBarTop {...navBarTopProps}/>
       <UpperBar/>
       <NavBarSide {...navBarProps}/>
+      {selectedProject && selectedSection && (<Editor {...editorProps}/>)}
       {props.projectCreateModalHelpers.isOpen() && (
         <Modal
           isOpen

@@ -2,11 +2,11 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Quill from 'quill';
 import {io, Socket} from 'socket.io-client';
 import {EditorStyles} from './EditorStyles';
-import {IProject} from '../../interfaces/IProject';
+import {IProject} from '../../../interfaces/IProject';
 import {useParams} from 'react-router-dom';
 import {isEqual} from 'lodash';
-import {MsConfig} from '../../../config/MsConfig';
-import {ISections} from '../../interfaces/ISections';
+import {MsConfig} from '../../../../config/MsConfig';
+import {ISections} from '../../../interfaces/ISections';
 
 // eslint-disable-next-line no-unused-vars
 const TOOLBAR_OPTIONS = [

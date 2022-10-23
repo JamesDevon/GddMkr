@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import {Collapse, List, ListItemButton, ListItemText, ListSubheader} from '@mui/material';
 import {ISections} from '../interfaces/ISections';
 import {ListHeader} from './Styles';
+import {findSectionPath} from './utils/findSectionPath';
+import {findSection} from './utils/findSection';
+import {isIncludedIn} from './utils/isIncludedIn';
 
 interface ISectionListProps {
   sections: ISections[] | undefined;
@@ -10,20 +13,15 @@ interface ISectionListProps {
 }
 
 export const SectionList = (props: ISectionListProps) => {
-  const [selectedSub, setSelectedSub] = useState<ISections | null >(null);
+  const [sectionPath, setSectionPath] = useState<Array<number>>([]);
   let index =0;
 
-  const handleSelection = (e: any, key: any) => {
+  const handleSelection = (e: any, key: string) => {
     if (props.sections == null) return;
-    setSelectedSub(null);
-    const newSelectedSections = props.sections.filter((section) => section._id == key);
-    props.setSelectedSection((newSelectedSections.length > 0) ? newSelectedSections[0] : null);
-  };
-
-  const handleSubSelection = (e: any, key: any) => {
-    if (!props.selectedSection?.subSections) return;
-    const selectedS = props.selectedSection.subSections.filter((section) => section._id == key);
-    setSelectedSub((selectedS.length > 0) ? selectedS[0] : null);
+    const path = findSectionPath(props.sections, key);
+    const newSelectedSection = findSection(props.sections, path);
+    props.setSelectedSection(newSelectedSection);
+    setSectionPath(path);
   };
 
   return (
@@ -40,30 +38,33 @@ export const SectionList = (props: ISectionListProps) => {
       }
     >
       {
-        props?.sections?.map((section) => {
-          return (
-            <>
-              <ListItemButton className={(section._id == props.selectedSection?._id) ? 'Mui-selected' : ''}
-                key={section._id}
-                onClick={(event: any) => handleSelection(event, section._id)}>
-                <ListItemText primary={index++ + '. ' + section.title} />
-              </ListItemButton>
-              <Collapse in={section._id == props.selectedSection?._id} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {props.selectedSection?.subSections?.map((subSection, subIndex) =>
-                    <ListItemButton
-                      className={(subSection._id === selectedSub?._id) ? 'Mui-selected' : ''}
-                      sx={{pl: 4}}
-                      key={`button ${subSection._id}`}
-                      onClick={(event: any) => handleSubSelection(event, subSection._id)}>
-                      <ListItemText primary={`${subIndex}. ${subSection.title}`} key={subSection._id}/>
-                    </ListItemButton>,
-                  )}
-                </List>
-              </Collapse>
-            </>
-          );
-        })
+        props?.sections?.map((section, sKey) => (
+          <>
+            <ListItemButton className={(isIncludedIn([section], props.selectedSection?._id)) ? 'Mui-selected' : ''}
+              key={section._id}
+              onClick={(event: any) => handleSelection(event, section._id)}>
+              <ListItemText primary={index++ + '. ' + section.title} />
+            </ListItemButton>
+            <Collapse in={sKey == sectionPath[0]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {
+                  (sKey == sectionPath[0]) ?
+                      (section.subSections?.map((subSection, subIndex) => {
+                        return <ListItemButton
+                          className={(subIndex == sectionPath[1]) ? 'Mui-selected' : ''}
+                          sx={{pl: 4}}
+                          key={`button ${subSection._id}`}
+                          onClick={(event: any) => handleSelection(event, subSection._id)}>
+                          <ListItemText primary={`${subIndex}. ${subSection.title}`} key={subSection._id}/>
+                        </ListItemButton>;
+                      })) :
+                        <></>
+                }
+              </List>
+            </Collapse>
+          </>
+        ),
+        )
       }
     </List>
   );

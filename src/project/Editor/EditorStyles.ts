@@ -5,7 +5,7 @@ export const EditorContainer = styled.div`
     z-index: ${zIndexValues.editor};
     position: fixed;
     top: 8%;
-    width:87%;
+    width:88%;
     height: 100%;
     overflow-y: scroll;
 `;
