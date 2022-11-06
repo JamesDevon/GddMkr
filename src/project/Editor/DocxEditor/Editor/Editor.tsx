@@ -8,7 +8,6 @@ import {isEqual} from 'lodash';
 import {MsConfig} from '../../../../config/MsConfig';
 import {ISections} from '../../../interfaces/ISections';
 
-// eslint-disable-next-line no-unused-vars
 const TOOLBAR_OPTIONS = [
   [{header: [1, 2, 3, 4, 5, 6, false]}],
   [{font: []}],
@@ -51,6 +50,7 @@ const Editor = (props: IEditorProps) => {
     setQuill(q);
   }, []);
 
+  // create connection with the socket
   useEffect(() => {
     const s = io(MsConfig.rootPath);
     setSocket(s);
@@ -60,6 +60,7 @@ const Editor = (props: IEditorProps) => {
     };
   }, [documentId, props.selectedSection]);
 
+  // load the document
   useEffect(() => {
     if (socket == null || quill == null) return;
     socket.once('load-document', (document: any) => {
@@ -72,40 +73,44 @@ const Editor = (props: IEditorProps) => {
     socket.emit('get-document', {projectId: documentId, sectionId: props.selectedSection?._id});
   }, [socket, quill, documentId, props.selectedSection]);
 
-  useEffect(() => {
-    if (socket == null || quill == null) return;
-    const handler = (delta: any, oldDelta: any, source: string) => {
-      if (source !== 'user') return;
-      socket.emit('send-changes', delta);
-    };
-    quill.on('text-change', handler);
+  // handle the changes of the document
+  // useEffect(() => {
+  //   if (socket == null || quill == null) return;
+  //   const handler = (delta: any, oldDelta: any, source: string) => {
+  //     if (source !== 'user') return;
+  //     socket.emit('send-changes', delta);
+  //   };
+  //   quill.on('text-change', handler);
+  //
+  //   return () => {
+  //     quill.off('text-change', handler);
+  //   };
+  // }, [socket, quill]);
 
-    return () => {
-      quill.off('text-change', handler);
-    };
-  }, [socket, quill]);
+  // receive changes from the socket
+  // useEffect(() => {
+  //   if (socket == null || quill == null) return;
+  //
+  //   const handler = (delta: any) => {
+  //     quill.updateContents(delta);
+  //   };
+  //
+  //   socket.on('receive-changes', handler);
+  //
+  //   return () => {
+  //     socket.off('receive-changes', handler);
+  //   };
+  // }, [socket, quill]);
 
-  useEffect(() => {
-    if (socket == null || quill == null) return;
 
-    const handler = (delta: any) => {
-      quill.updateContents(delta);
-    };
-
-    socket.on('receive-changes', handler);
-
-    return () => {
-      socket.off('receive-changes', handler);
-    };
-  }, [socket, quill]);
-
+  // save the document
   useEffect(() => {
     if (socket == null || quill == null) return;
 
     const interval = setInterval(() => {
       if (isEqual(dataRef.current.ops, quill.getContents().ops)) return;
       dataRef.current = quill.getContents();
-      socket.emit('save-document', quill.getContents());
+      socket.emit('save-document', {content: quill.getContents()});
     }, 2000);
 
     return () => {
@@ -114,7 +119,7 @@ const Editor = (props: IEditorProps) => {
   }, [socket, quill]);
 
   return (
-    <EditorStyles className='docxEditor' ref={wrapperRef} zoomPercentage={props.zoom}></EditorStyles>
+    <EditorStyles className='docxEditor' ref={wrapperRef} zoomPercentage={props.zoom} ></EditorStyles>
   );
 };
 
