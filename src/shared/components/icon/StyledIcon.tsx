@@ -5,6 +5,7 @@ interface StyledIconProps {
   left: number,
   top: number,
   code: string | undefined,
+  visibility: string | undefined,
 }
 
 export const StyledIcon = styled.i`
@@ -25,5 +26,6 @@ export const StyledIcon = styled.i`
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    visibility: ${(props) => (props.visibility != undefined) ? props.visibility : 'visible'};
   }
 `;

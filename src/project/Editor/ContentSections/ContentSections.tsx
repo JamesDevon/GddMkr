@@ -5,6 +5,7 @@ import {ContentTypeEnum} from '../../../enums/ContentType.enum';
 import DocxEditor from '../DocxEditor/DocxEditor';
 import {IProject} from '../../interfaces/IProject';
 import {IZoomProps} from '../DocxEditor/Zoom/Zoom';
+import {MultiselectEditor} from '../MultiselectContent/MultiselectEditor';
 
 export interface ContentSectionsProps {
   section: ISections | null;
@@ -20,6 +21,7 @@ export const ContentSections = (props: ContentSectionsProps) => {
       case ContentTypeEnum.DropDown:
         break;
       case ContentTypeEnum.MultiSelect:
+        returnArray.push(<MultiselectEditor items={section.content}/>);
         break;
       case ContentTypeEnum.FreeText:
         returnArray.push(<DocxEditor key={section.title} selectedProject={props.project} selectedSection={section} zoom={props.zoom.zoom}/>);
@@ -30,8 +32,8 @@ export const ContentSections = (props: ContentSectionsProps) => {
 
   return (
     <div>
-      <hr/>
       <h2>{props.section?.title}</h2>
+      <hr/>
       {editorTypeMap(props.section)}
       {props.section?.subSections?.map((subSection) =>
         <div key={subSection._id}>
