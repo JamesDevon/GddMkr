@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Button} from '@mui/material';
-import {Icon} from '../../../shared/components';
+import {Icon} from '../../../../shared/components';
 import {ZoomContainer} from './ZoomStyles';
 
 export interface IZoomProps {
@@ -15,18 +15,17 @@ const Zoom = (props: IZoomProps) => {
 
   return (
     <ZoomContainer>
-      <label>{props.zoom}%</label>
       <Button onClick={() => props.setZoom(props.zoom+props.step)} style={buttonStyle}>
-        <Icon type="zoom-in" size={22}/>
+        <Icon type="zoom-in" size={22} color='white'/>
       </Button>
       <Button onClick={() => props.setZoom(props.zoom-props.step)} style={buttonStyle}>
-        <Icon type="zoom-out" size={22}/>
+        <Icon type="zoom-out" size={22} color='white'/>
       </Button>
       <Button onClick={() => props.setZoom(100)} style={buttonStyle}>
-        <Icon type="exit-fullscreen" size={22}/>
+        <Icon type="exit-fullscreen" size={22} color='white'/>
       </Button>
       <Button onClick={() => props.setZoom(250)} style={buttonStyle}>
-        <Icon type="enter-fullscreen" size={22}/>
+        <Icon type="enter-fullscreen" size={22} color='white'/>
       </Button>
     </ZoomContainer>
   );

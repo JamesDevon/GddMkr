@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Divider, ProjectInfo, Sidebar} from './NavBarSideStyles';
 import {Icon} from '../../shared/components';
 import {IProject} from '../interfaces/IProject';
@@ -34,6 +34,10 @@ export const NavBarSide = (props: INavBarSideProps) => {
         Configure project
     </Tooltip>
   );
+
+  useEffect(() => {
+    props.setSelectedSection(null);
+  }, [props.selectedProject]);
 
   return (
     <Sidebar>

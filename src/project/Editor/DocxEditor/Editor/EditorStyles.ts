@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {color, zIndexValues} from '../../../shared/utils/styles';
+import {color, zIndexValues} from '../../../../shared/utils/styles';
 
 export const EditorStyles = styled.div`
     *::before, *::after {
@@ -11,7 +11,7 @@ export const EditorStyles = styled.div`
     justify-content: center;
     z-index: ${zIndexValues.editor+1};
     position: sticky;
-    top: 0%;
+    top: 0;
     border: none;
     background-color: ${color.get('backgroundLightest')};
     box-shadow: 0 0 5px 0 rgba(0, 0, 0 ,.5);
