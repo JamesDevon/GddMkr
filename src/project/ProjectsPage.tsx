@@ -9,9 +9,9 @@ import ProjectCreate from './Modals/ProjectCreate';
 import {FrontConfig} from '../config/FrontConfig';
 import {useNavigate} from 'react-router-dom';
 import ProjectConfig from './Modals/ProjectConfig';
-import {ISections} from './interfaces/ISections';
 import {InviteFriend} from './Modals/InviteFriend';
 import {Editor, EditorProps} from './Editor/Editor';
+import {findSection} from './SectionList/utils/findSection';
 
 export interface IProjectPageProps {
     projects: IProject[];
@@ -25,14 +25,23 @@ export interface IProjectPageProps {
 export const ProjectsPage = (props: IProjectPageProps) => {
   const sProject: IProject | undefined = props.projects.find((pr) => pr._id == props.id);
   const [selectedProject, setSelectedProject] = useState<IProject | null>((sProject) ? sProject : null);
-  const [selectedSection, setSelectedSection] = useState<ISections | null>((selectedProject) ? selectedProject.sections[0] : null);
+  const [sectionPath, setSectionPath] = useState<Array<number>>([]);
+
+
+  const section = (selectedProject?.sections != null) ? findSection(selectedProject?.sections, sectionPath) : null;
+  const [selectedSection, setSelectedSection] = useState(section);
+
+  useEffect(() => {
+    setSelectedSection((selectedProject?.sections != null) ? findSection(selectedProject?.sections, sectionPath) : null);
+  }, [sectionPath, selectedProject]);
 
   const navBarProps : INavBarSideProps = {
     ...props,
     setSelectedProject,
     selectedProject,
     selectedSection,
-    setSelectedSection,
+    sectionPath,
+    setSectionPath,
   };
 
   const navBarTopProps : INavBarTop = {
@@ -42,6 +51,7 @@ export const ProjectsPage = (props: IProjectPageProps) => {
   const editorProps: EditorProps = {
     selectedProject,
     selectedSection,
+    setSelectedProject,
   };
 
   const navigate = useNavigate();
@@ -52,7 +62,7 @@ export const ProjectsPage = (props: IProjectPageProps) => {
     } else if (window.location.pathname != `${FrontConfig.app}/${selectedProject._id}`) {
       navigate(`${FrontConfig.app}/${selectedProject._id}`);
     }
-  }, [selectedProject, selectedSection]);
+  }, [selectedProject]);
 
   return (
     <ProjectPageStyles>

@@ -57,4 +57,20 @@ export class Api<T, C> {
           }},
     );
   }
+
+  /**
+   * @summary Making a post request
+   * @param {IPost} postDto
+   */
+  async put(postDto: IPost<T>) : Promise<AxiosResponse<C>> {
+    const {path, body} = postDto;
+    return axios.put(
+        path,
+        {...body},
+        {
+          headers: {
+            'Authorization': `Bearer ${Authenticator.token}`,
+          }},
+    );
+  }
 }
