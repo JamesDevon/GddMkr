@@ -1,27 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Collapse, List, ListItemButton, ListItemText, ListSubheader} from '@mui/material';
 import {ISections} from '../interfaces/ISections';
 import {ListHeader} from './Styles';
 import {findSectionPath} from './utils/findSectionPath';
-import {findSection} from './utils/findSection';
 import {isIncludedIn} from './utils/isIncludedIn';
 
 interface ISectionListProps {
   sections: ISections[] | undefined;
   selectedSection: ISections | null;
-  setSelectedSection: any;
+  sectionPath: number[],
+  setSectionPath: (path: number[]) => void;
 }
 
 export const SectionList = (props: ISectionListProps) => {
-  const [sectionPath, setSectionPath] = useState<Array<number>>([]);
   let index =0;
 
   const handleSelection = (e: any, key: string) => {
     if (props.sections == null) return;
     const path = findSectionPath(props.sections, key);
-    const newSelectedSection = findSection(props.sections, path);
-    props.setSelectedSection(newSelectedSection);
-    setSectionPath(path);
+    props.setSectionPath(path);
   };
 
   return (
@@ -45,13 +42,13 @@ export const SectionList = (props: ISectionListProps) => {
               onClick={(event: any) => handleSelection(event, section._id)}>
               <ListItemText primary={index++ + '. ' + section.title} />
             </ListItemButton>
-            <Collapse in={sKey == sectionPath[0]} timeout="auto" unmountOnExit>
+            <Collapse in={sKey == props.sectionPath[0]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {
-                  (sKey == sectionPath[0]) ?
+                  (sKey == props.sectionPath[0]) ?
                       (section.subSections?.map((subSection, subIndex) => {
                         return <ListItemButton
-                          className={(subIndex == sectionPath[1]) ? 'Mui-selected' : ''}
+                          className={(subIndex == props.sectionPath[1]) ? 'Mui-selected' : ''}
                           sx={{pl: 4}}
                           key={`button ${subSection._id}`}
                           onClick={(event: any) => handleSelection(event, subSection._id)}>

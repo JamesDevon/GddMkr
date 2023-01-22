@@ -4,6 +4,7 @@ import {MsConfig} from '../../../config/MsConfig';
 import {IPost} from '../interfaces/IPost';
 import {IReturn} from '../interfaces/IReturn';
 import StatusCode from 'status-code-enum';
+import {ISections} from '../../../project/interfaces/ISections';
 
 /**
  * The Project class
@@ -62,6 +63,29 @@ export class ProjectService {
         result.msg = 'The info you provided was not acceptable. Please review your input and try again';
       }
     });
+    return result;
+  }
+
+  static async updateProjectSection(projectId: string, sectionId: string, content: unknown) : Promise<IReturn<{ project:Partial<IProject>, section: Partial<ISections> }>> {
+    const api: Api<unknown, { project:Partial<IProject>, section: Partial<ISections> }> = new Api<unknown, { project:Partial<IProject>, section: Partial<ISections> }>();
+    const putParams : IPost<unknown> = {
+      body: content,
+      path: `${MsConfig.projectsPath}/${projectId}/section/${sectionId}`,
+    };
+    const result : IReturn<{ project:Partial<IProject>, section: Partial<ISections> }> = {success: false, msg: '', data: {project: {}, section: {}}};
+    try {
+      const projectUpdated = await api.put(putParams);
+      result.success = true;
+      result.data = projectUpdated.data;
+    } catch (error: any) {
+      result.success = false;
+      if (error?.status === StatusCode.ServerErrorInternal) {
+        result.msg = 'The projects creation failed due to system error. Please try again';
+      } else if (error?.status === StatusCode.ClientErrorBadRequest) {
+        result.msg = 'The info you provided was not acceptable. Please review your input and try again';
+      }
+    }
+    console.log(result.data);
     return result;
   }
 }

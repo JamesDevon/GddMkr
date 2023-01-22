@@ -15,6 +15,7 @@ const fontIconCodes = new Map<string, string>([
   ['enter-fullscreen', '\\F3DF'],
   ['config', '\\F3E4'],
   ['selector', '\\\F234'],
+  ['add', '\\\F4FE'],
 ]);
 
 

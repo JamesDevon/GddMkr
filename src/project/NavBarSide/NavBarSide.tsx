@@ -9,7 +9,6 @@ import {color} from '../../shared/utils/styles';
 import {SectionList} from '../SectionList';
 import {ISections} from '../interfaces/ISections';
 
-
 export interface INavBarSideProps {
     projects: IProject[];
     setProjects: any;
@@ -19,7 +18,8 @@ export interface INavBarSideProps {
     setSelectedProject: any;
     selectedProject: IProject | null;
     selectedSection: ISections | null;
-    setSelectedSection: any;
+    sectionPath: number[],
+    setSectionPath: (path: number[]) => void;
 }
 
 export const NavBarSide = (props: INavBarSideProps) => {
@@ -34,10 +34,6 @@ export const NavBarSide = (props: INavBarSideProps) => {
         Configure project
     </Tooltip>
   );
-
-  useEffect(() => {
-    props.setSelectedSection(null);
-  }, [props.selectedProject]);
 
   return (
     <Sidebar>
@@ -62,7 +58,7 @@ export const NavBarSide = (props: INavBarSideProps) => {
       </ProjectInfo>
 
       <Divider />
-      <SectionList sections={props.selectedProject?.sections} selectedSection={props.selectedSection} setSelectedSection={props.setSelectedSection}/>
+      <SectionList sections={props.selectedProject?.sections} selectedSection={props.selectedSection} sectionPath={props.sectionPath} setSectionPath={props.setSectionPath}/>
     </Sidebar>
   );
 };

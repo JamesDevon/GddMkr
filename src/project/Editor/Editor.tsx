@@ -6,10 +6,12 @@ import {ISections} from '../interfaces/ISections';
 import {ContentSections} from './ContentSections/ContentSections';
 import {EditorContainer} from './EditorStyles';
 import Zoom, {IZoomProps} from './DocxEditor/Zoom/Zoom';
+import {ContentTypeEnum} from '../../enums/ContentType.enum';
 
 export interface EditorProps {
   selectedProject: IProject | null;
   selectedSection: ISections | null;
+  setSelectedProject: any;
 }
 
 export const Editor = (props: EditorProps) => {
@@ -19,12 +21,13 @@ export const Editor = (props: EditorProps) => {
     zoom,
     setZoom,
     step: 10,
+    visible: props.selectedSection?.type == ContentTypeEnum.FreeText,
   };
 
   return (
     <EditorContainer>
       <Zoom {...zoomProps}/>
-      <ContentSections section={props.selectedSection} project={props.selectedProject} zoom={zoomProps}/>
+      <ContentSections section={props.selectedSection} project={props.selectedProject} zoom={zoomProps} setSelectedProject={props.setSelectedProject}/>
     </EditorContainer>
   );
 };

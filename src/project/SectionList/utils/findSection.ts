@@ -11,7 +11,10 @@ export const findSection = (parentSections: Array<ISections>, path: Array<number
   };
   for (let i=0; i<path.length; i++) {
     // @ts-ignore
-    section = section.subSections[path[i]];
+    if (section.subSections?.length >= path[i]) {
+      // @ts-ignore
+      section = section.subSections[path[i]];
+    }
   }
   return section;
 };

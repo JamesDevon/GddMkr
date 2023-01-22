@@ -5,5 +5,5 @@ export const ZoomContainer = styled.div`
   z-index: ${zIndexValues.editor+2};
   position: fixed;
   right: 2%;
-  top: 5.4%
+  top: 5.2%
 `;

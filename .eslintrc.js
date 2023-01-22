@@ -22,5 +22,6 @@ module.exports = {
   'rules': {
     'max-len': 0,
     'no-unused-vars': 0,
+    'require-jsdoc': 0,
   },
 };
