@@ -6,6 +6,6 @@ export interface IProject {
     genre: string;
     title: string;
     description: string;
-    sections: ISections[];
+    sections: ISections<any>[];
     __v: number;
 }

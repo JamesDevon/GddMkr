@@ -1,7 +1,7 @@
 import {ISections} from '../../interfaces/ISections';
 import {isIncludedIn} from './isIncludedIn';
 
-export const findSectionPath = (parentSections: Array<ISections>, sectionKey: string): Array<number> => {
+export const findSectionPath = (parentSections: Array<ISections<any>>, sectionKey: string): Array<number> => {
   const pathArray: Array<number> = [];
   for (let i=0; i<parentSections.length; i++) {
     const isEqual = sectionKey === parentSections[i]._id;

@@ -9,7 +9,7 @@ import {ISections} from '../../interfaces/ISections';
 
 export interface IDocxEditor {
   selectedProject: IProject | null;
-  selectedSection: ISections | null;
+  selectedSection: ISections<any> | null;
   zoom: number;
 }
 

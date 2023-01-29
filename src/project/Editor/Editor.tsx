@@ -10,7 +10,7 @@ import {ContentTypeEnum} from '../../enums/ContentType.enum';
 
 export interface EditorProps {
   selectedProject: IProject | null;
-  selectedSection: ISections | null;
+  selectedSection: ISections<any> | null;
   setSelectedProject: any;
 }
 

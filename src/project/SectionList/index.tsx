@@ -6,8 +6,8 @@ import {findSectionPath} from './utils/findSectionPath';
 import {isIncludedIn} from './utils/isIncludedIn';
 
 interface ISectionListProps {
-  sections: ISections[] | undefined;
-  selectedSection: ISections | null;
+  sections: ISections<any>[] | undefined;
+  selectedSection: ISections<any> | null;
   sectionPath: number[],
   setSectionPath: (path: number[]) => void;
 }

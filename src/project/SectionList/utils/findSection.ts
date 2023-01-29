@@ -1,8 +1,8 @@
 import {ISections} from '../../interfaces/ISections';
 import {ContentTypeEnum} from '../../../enums/ContentType.enum';
 
-export const findSection = (parentSections: Array<ISections>, path: Array<number>): ISections | null => {
-  let section: ISections = {
+export const findSection = (parentSections: Array<ISections<any>>, path: Array<number>): ISections<any> | null => {
+  let section: ISections<any> = {
     title: '',
     content: '',
     _id: '',

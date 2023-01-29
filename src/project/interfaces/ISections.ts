@@ -1,9 +1,9 @@
 import {ContentTypeEnum} from '../../enums/ContentType.enum';
 
-export interface ISections {
+export interface ISections<T> {
     title: string;
-    content: any;
+    content: T;
     _id: string;
     type: ContentTypeEnum;
-    subSections: Array<ISections> | undefined;
+    subSections: Array<ISections<any>> | undefined;
 }

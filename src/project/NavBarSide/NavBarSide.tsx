@@ -17,7 +17,7 @@ export interface INavBarSideProps {
     id: string | undefined;
     setSelectedProject: any;
     selectedProject: IProject | null;
-    selectedSection: ISections | null;
+    selectedSection: ISections<any> | null;
     sectionPath: number[],
     setSectionPath: (path: number[]) => void;
 }

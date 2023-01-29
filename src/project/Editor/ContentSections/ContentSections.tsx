@@ -6,20 +6,22 @@ import DocxEditor from '../DocxEditor/DocxEditor';
 import {IProject} from '../../interfaces/IProject';
 import {IZoomProps} from '../DocxEditor/Zoom/Zoom';
 import {MultiselectEditor} from '../MultiselectContent/MultiselectEditor';
+import {DropDownEditor} from '../DropDownContent/DropDownEditor';
 
 export interface ContentSectionsProps {
-  section: ISections | null;
+  section: ISections<any> | null;
   project: IProject | null;
   setSelectedProject: any;
   zoom: IZoomProps;
 }
 
 export const ContentSections = (props: ContentSectionsProps) => {
-  const editorTypeMap = (section: ISections | null, project: IProject | null): Array<JSX.Element> => {
+  const editorTypeMap = (section: ISections<any> | null, project: IProject | null): Array<JSX.Element> => {
     const returnArray: Array<JSX.Element> = [];
     if (!section) return returnArray;
     switch (section?.type) {
       case ContentTypeEnum.DropDown:
+        returnArray.push(<DropDownEditor key={section.title} setSelectedProject={props.setSelectedProject} projectId={project!._id} section={section} />);
         break;
       case ContentTypeEnum.MultiSelect:
         returnArray.push(<MultiselectEditor key={section.title} setSelectedProject={props.setSelectedProject} projectId={project!._id} sectionId={section._id} items={section.content}/>);

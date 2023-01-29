@@ -66,13 +66,13 @@ export class ProjectService {
     return result;
   }
 
-  static async updateProjectSection(projectId: string, sectionId: string, content: unknown) : Promise<IReturn<{ project:Partial<IProject>, section: Partial<ISections> }>> {
-    const api: Api<unknown, { project:Partial<IProject>, section: Partial<ISections> }> = new Api<unknown, { project:Partial<IProject>, section: Partial<ISections> }>();
+  static async updateProjectSection(projectId: string, sectionId: string, content: unknown) : Promise<IReturn<{ project:Partial<IProject>, section: Partial<ISections<any>> }>> {
+    const api: Api<unknown, { project:Partial<IProject>, section: Partial<ISections<any>> }> = new Api<unknown, { project:Partial<IProject>, section: Partial<ISections<any>> }>();
     const putParams : IPost<unknown> = {
       body: content,
       path: `${MsConfig.projectsPath}/${projectId}/section/${sectionId}`,
     };
-    const result : IReturn<{ project:Partial<IProject>, section: Partial<ISections> }> = {success: false, msg: '', data: {project: {}, section: {}}};
+    const result : IReturn<{ project:Partial<IProject>, section: Partial<ISections<any>> }> = {success: false, msg: '', data: {project: {}, section: {}}};
     try {
       const projectUpdated = await api.put(putParams);
       result.success = true;

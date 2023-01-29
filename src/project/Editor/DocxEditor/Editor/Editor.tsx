@@ -23,7 +23,7 @@ const TOOLBAR_OPTIONS = [
 export interface IEditorProps {
   zoom: number;
   project: IProject | null;
-  selectedSection: ISections | null;
+  selectedSection: ISections<any> | null;
 }
 
 const Editor = (props: IEditorProps) => {
